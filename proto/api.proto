@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "./internal/api";
+
+enum Codes {
+    CODES_SUCCESS = 0;
+    CODES_CLIENT_ERROR = 1;
+    CODES_SERVER_ERROR = 2;
+}
+
+service APIService {
+    rpc Imagine(ImagineRequest) returns(ImagineResponse);
+}
+
+message ImagineRequest {
+    string request_id = 1;
+    string prompt = 2;
+    string webhook = 3;
+}
+
+message ImagineResponse {
+    string request_id = 1;
+    Codes code = 2;
+    string msg = 3;
+    optional ImagineResponseData data = 4;
+}
+
+message ImagineResponseData {
+    string message_id = 1;
+    string create_at = 2;
+}
