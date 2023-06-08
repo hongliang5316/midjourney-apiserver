@@ -34,6 +34,10 @@ func New() *Application {
 		log.Fatal(err)
 	}
 
+	if cfg.ListenPort == 0 {
+		cfg.ListenPort = 8080
+	}
+
 	dg, err := discordgo.New(cfg.UserToken)
 	if err != nil {
 		log.Fatal(err)
@@ -54,8 +58,8 @@ func New() *Application {
 }
 
 func (app *Application) Run() error {
-	go func() {
-		lis, err := net.Listen("tcp", ":8080")
+	go func(app *Application) {
+		lis, err := net.Listen("tcp", fmt.Sprintf(":%d", app.Cfg.ListenPort))
 		if err != nil {
 			log.Fatalf("failed to listen: %+v", err)
 		}
@@ -66,7 +70,7 @@ func (app *Application) Run() error {
 		if err := s.Serve(lis); err != nil {
 			log.Fatal(err)
 		}
-	}()
+	}(app)
 
 	err := app.Open()
 	if err != nil {
