@@ -10,7 +10,7 @@ import (
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/hongliang5316/midjourney-apiserver/internal/api"
+	"github.com/hongliang5316/midjourney-apiserver/pkg/api"
 	"github.com/hongliang5316/midjourney-go/midjourney"
 	"google.golang.org/grpc"
 	"gopkg.in/yaml.v3"

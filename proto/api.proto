@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package api;
 
-option go_package = "./internal/api";
+option go_package = "./pkg/api";
 
 enum Codes {
     CODES_SUCCESS = 0;
