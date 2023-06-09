@@ -6,12 +6,13 @@ option go_package = "./pkg/api";
 
 enum Codes {
     CODES_SUCCESS = 0;
-    CODES_CLIENT_ERROR = 1;
-    CODES_SERVER_ERROR = 2;
+    CODES_SERVER_ERROR = 1;
+    CODES_INVALID_PARAMETER_ERROR = 2;
 }
 
 service APIService {
     rpc Imagine(ImagineRequest) returns(ImagineResponse);
+    rpc Upscale(UpscaleRequest) returns(UpscaleResponse);
 }
 
 message ImagineRequest {
@@ -28,6 +29,25 @@ message ImagineResponse {
 }
 
 message ImagineResponseData {
-    string message_id = 1;
-    string create_at = 2;
+    string task_id = 1;
+    int64 start_time = 2;
+}
+
+message UpscaleRequest {
+    string request_id = 1;
+    int32 index = 2;
+    string task_id = 3;
+    string webhook = 4;
+}
+
+message UpscaleResponse {
+    string request_id = 1;
+    Codes code = 2;
+    string msg = 3;
+    optional UpscaleResponseData data = 4;
+}
+
+message UpscaleResponseData {
+    string task_id = 1;
+    int64 start_time = 2;
 }

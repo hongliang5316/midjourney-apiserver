@@ -6,10 +6,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 type UpscaleRequest struct {
-	Index       int    `json:"index"`
+	Index       int32  `json:"index"`
 	GuildID     string `json:"guild_id"`
 	ChannelID   string `json:"channel_id"`
 	MessageID   string `json:"message_id"`
@@ -55,4 +56,12 @@ func (c *Client) Upscale(ctx context.Context, upscaleReq *UpscaleRequest) error 
 	}
 
 	return nil
+}
+
+func GetMessageHash(url string) string {
+	t := strings.Split(url, "_")
+	t = strings.Split(t[len(t)-1], ".")
+	hash := t[0]
+
+	return hash
 }

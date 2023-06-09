@@ -54,6 +54,7 @@ func (c *Client) Describe(ctx context.Context, describeReq *DescribeRequest) err
 
 	attachmentsAndUploadResp, err := c.AttachmentsAndUpload(ctx, &AttachmentsAndUploadRequest{
 		AttachmentsRequest: &AttachmentsRequest{
+			ChannelID: describeReq.ChannelID,
 			Files: []File{
 				{
 					ID:       "0",

@@ -2,7 +2,6 @@ package application
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net"
 	"os"
@@ -10,47 +9,43 @@ import (
 	"syscall"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/hongliang5316/midjourney-apiserver/internal/common"
+	"github.com/hongliang5316/midjourney-apiserver/internal/config"
+	"github.com/hongliang5316/midjourney-apiserver/internal/service"
+	"github.com/hongliang5316/midjourney-apiserver/internal/store"
 	"github.com/hongliang5316/midjourney-apiserver/pkg/api"
 	"github.com/hongliang5316/midjourney-go/midjourney"
 	"google.golang.org/grpc"
-	"gopkg.in/yaml.v3"
 )
 
 type Application struct {
-	*discordgo.Session
-	Cli *midjourney.Client
-	Cfg *Config
+	*common.Base
 }
 
 func New() *Application {
-	cfg := new(Config)
+	cfg := config.Load()
 
-	data, err := ioutil.ReadFile("./conf/conf.yml")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	if err := yaml.Unmarshal([]byte(data), cfg); err != nil {
-		log.Fatal(err)
-	}
-
-	if cfg.ListenPort == 0 {
-		cfg.ListenPort = 8080
-	}
-
-	dg, err := discordgo.New(cfg.UserToken)
+	dg, err := discordgo.New(cfg.Midjourney.UserToken)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	cli := midjourney.NewClient(&midjourney.Config{
-		UserToken: cfg.UserToken,
+		UserToken: cfg.Midjourney.UserToken,
 	})
 
-	app := &Application{dg, cli, cfg}
+	stor := store.NewStore(&store.Config{
+		Redis: store.Redis{
+			Address:  cfg.Redis.Address,
+			Password: cfg.Redis.Password,
+		},
+	})
+
+	app := &Application{Base: &common.Base{Session: dg, Store: stor, MJClient: cli, Config: cfg}}
 
 	dg.AddHandler(app.messageCreate)
 	dg.AddHandler(app.messageUpdate)
+	dg.AddHandler(app.messageDelete)
 
 	dg.Identify.Intents = discordgo.IntentsAll
 
@@ -59,13 +54,13 @@ func New() *Application {
 
 func (app *Application) Run() error {
 	go func(app *Application) {
-		lis, err := net.Listen("tcp", fmt.Sprintf(":%d", app.Cfg.ListenPort))
+		lis, err := net.Listen("tcp", fmt.Sprintf(":%d", app.Config.ListenPort))
 		if err != nil {
 			log.Fatalf("failed to listen: %+v", err)
 		}
 
 		s := grpc.NewServer()
-		api.RegisterAPIServiceServer(s, new(Service))
+		api.RegisterAPIServiceServer(s, service.New(app.Base))
 
 		if err := s.Serve(lis); err != nil {
 			log.Fatal(err)

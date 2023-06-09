@@ -1,0 +1,10 @@
+listen_port:
+
+midjourney:
+  user_token:
+  guild_id:
+  channel_id:
+
+redis:
+  address:
+  password:
