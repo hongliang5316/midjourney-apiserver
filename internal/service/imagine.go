@@ -47,7 +47,7 @@ func (s *Service) Imagine(ctx context.Context, in *api.ImagineRequest) (*api.Ima
 	}); err != nil {
 		return &api.ImagineResponse{
 			RequestId: in.RequestId,
-			Code:      api.Codes_CODES_SERVER_ERROR,
+			Code:      api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:       fmt.Sprint(err),
 		}, nil
 	}
@@ -56,12 +56,12 @@ func (s *Service) Imagine(ctx context.Context, in *api.ImagineRequest) (*api.Ima
 	case <-time.After(10 * time.Second):
 		return &api.ImagineResponse{
 			RequestId: in.RequestId,
-			Code:      api.Codes_CODES_SERVER_ERROR,
+			Code:      api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:       "timeout",
 		}, nil
 	case msgInfo := <-KeyChan.Get(key):
 		if msgInfo.Error != nil {
-			code := api.Codes_CODES_SERVER_ERROR
+			code := api.Codes_CODES_SERVER_INTERNAL_ERROR
 
 			switch msgInfo.Error.Title {
 			case "Invalid parameter":

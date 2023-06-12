@@ -55,7 +55,7 @@ func (s *Store) SaveWithComplete(ctx context.Context, completeMessageID, prompt,
 		}
 
 		return Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call redis.Set failed, err: %+v", err),
 		}
 	}
@@ -63,7 +63,7 @@ func (s *Store) SaveWithComplete(ctx context.Context, completeMessageID, prompt,
 	exist, err := s.Exists(ctx, id).Result()
 	if err != nil {
 		return Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call redis.Exists failed, err: %+v", err),
 		}
 	}
@@ -81,7 +81,7 @@ func (s *Store) SaveWithComplete(ctx context.Context, completeMessageID, prompt,
 		"attachments":         attachments,
 	}).Err(); err != nil {
 		return Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call redis.HSet failed, err: %+v", err),
 		}
 	}
@@ -118,7 +118,7 @@ func (s *Store) GetID(ctx context.Context, prompt string) (string, error) {
 		}
 
 		return "", Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call redis.Get failed, err: %+v", err),
 		}
 	}
@@ -135,7 +135,7 @@ func (s *Store) CheckPrompt(ctx context.Context, prompt string) error {
 		}
 
 		return Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call redis.Set failed, err: %+v", err),
 		}
 	}
@@ -147,7 +147,7 @@ func (s *Store) CheckPrompt(ctx context.Context, prompt string) error {
 		}
 
 		return Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call redis.HGet failed, err: %+v", err),
 		}
 	}
@@ -166,7 +166,7 @@ func (s *Store) SaveWebhook(ctx context.Context, id, webhook string) error {
 	exist, err := s.Exists(ctx, id).Result()
 	if err != nil {
 		return Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call redis.Exists failed, err: %+v", err),
 		}
 	}
@@ -179,7 +179,7 @@ func (s *Store) SaveWebhook(ctx context.Context, id, webhook string) error {
 		"webhook": webhook,
 	}).Err(); err != nil {
 		return Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call redis.HSet failed, err: %+v", err),
 		}
 	}
@@ -198,7 +198,7 @@ func (s *Store) SaveMeta(
 	key := GetKey(prompt)
 	if err := s.Set(ctx, key, id, Expired).Err(); err != nil {
 		return Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call redis.Set failed, err: %+v", err),
 		}
 	}
@@ -211,14 +211,14 @@ func (s *Store) SaveMeta(
 		"start_time": fmt.Sprint(start_time),
 	}).Err(); err != nil {
 		return Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call redis.HSet failed, err: %+v", err),
 		}
 	}
 
 	if err := s.Expire(ctx, id, Expired).Err(); err != nil {
 		return Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call redis.Expire failed, err: %+v", err),
 		}
 	}
@@ -230,7 +230,7 @@ func (s *Store) UpdateProcessRate(ctx context.Context, id, processRate string) e
 	exist, err := s.Exists(ctx, id).Result()
 	if err != nil {
 		return Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call redis.Exists failed, err: %+v", err),
 		}
 	}
@@ -244,7 +244,7 @@ func (s *Store) UpdateProcessRate(ctx context.Context, id, processRate string) e
 		"process_rate": processRate,
 	}).Err(); err != nil {
 		return Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call redis.HSet failed, err: %+v", err),
 		}
 	}

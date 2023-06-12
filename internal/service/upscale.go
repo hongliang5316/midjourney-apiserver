@@ -84,7 +84,7 @@ func (s *Service) Upscale(ctx context.Context, in *api.UpscaleRequest) (*api.Ups
 	}); err != nil {
 		return &api.UpscaleResponse{
 			RequestId: in.RequestId,
-			Code:      api.Codes_CODES_SERVER_ERROR,
+			Code:      api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:       fmt.Sprint(err),
 		}, nil
 	}
@@ -93,12 +93,12 @@ func (s *Service) Upscale(ctx context.Context, in *api.UpscaleRequest) (*api.Ups
 	case <-time.After(10 * time.Second):
 		return &api.UpscaleResponse{
 			RequestId: in.RequestId,
-			Code:      api.Codes_CODES_SERVER_ERROR,
+			Code:      api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:       "timeout",
 		}, nil
 	case msgInfo := <-KeyChan.Get(key):
 		if msgInfo.Error != nil {
-			code := api.Codes_CODES_SERVER_ERROR
+			code := api.Codes_CODES_SERVER_INTERNAL_ERROR
 
 			switch msgInfo.Error.Title {
 			case "Invalid parameter":
@@ -115,7 +115,7 @@ func (s *Service) Upscale(ctx context.Context, in *api.UpscaleRequest) (*api.Ups
 		if err := s.Store.SaveWebhook(ctx, msgInfo.ID, in.Webhook); err != nil {
 			return &api.UpscaleResponse{
 				RequestId: in.RequestId,
-				Code:      api.Codes_CODES_SERVER_ERROR,
+				Code:      api.Codes_CODES_SERVER_INTERNAL_ERROR,
 				Msg:       fmt.Sprint(err),
 			}, nil
 		}

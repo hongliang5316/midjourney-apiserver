@@ -27,7 +27,7 @@ func (md *MetaData) GetImageURL() (string, error) {
 	as := []discordgo.MessageAttachment{}
 	if err := json.Unmarshal([]byte(md.Attachments), &as); err != nil {
 		return "", Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call json.Unmarshal failed, err: %+v", err),
 		}
 	}
@@ -39,7 +39,7 @@ func (s *Store) GetMetaData(ctx context.Context, id string) (*MetaData, error) {
 	res := s.HGetAll(ctx, id)
 	if res.Err() != nil {
 		return nil, Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call s.HGetAll failed, err: %+v", res.Err()),
 		}
 	}
@@ -52,7 +52,7 @@ func (s *Store) GetMetaData(ctx context.Context, id string) (*MetaData, error) {
 	md := new(MetaData)
 	if err := res.Scan(md); err != nil {
 		return nil, Error{
-			Code: api.Codes_CODES_SERVER_ERROR,
+			Code: api.Codes_CODES_SERVER_INTERNAL_ERROR,
 			Msg:  fmt.Sprintf("Call res.Scan failed, err: %+v", err),
 		}
 	}
