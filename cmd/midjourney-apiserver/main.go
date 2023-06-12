@@ -9,6 +9,6 @@ import (
 func main() {
 	app := application.New()
 	if err := app.Run(); err != nil {
-		log.Printf("Call app.Run failed, err: %+v", err)
+		log.Fatalf("Call app.Run failed, err: %+v", err)
 	}
 }
