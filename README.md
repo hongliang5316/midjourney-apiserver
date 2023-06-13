@@ -89,8 +89,8 @@ mkdir -p /your/app/conf
 
 cd /your/app
 
-# config conf.yml, please see ./conf/conf.yml.example
-cat conf/conf.yml
+# configure conf.yml, please see ./conf/conf.yml.example
+vim conf/conf.yml
 
 # create docker-compose.yml
 cat docker-compose.yml
@@ -126,11 +126,14 @@ docker-compose logs
 ```sh
 go install github.com/hongliang5316/midjourney-apiserver/cmd/midjourney-apiserver@latest
 
+mkdir -p /your/app/conf
+
 cd /your/app
+
 cp `go env GOROOT`/bin/midjourney-apiserver .
 mkdir conf
-# config conf.yml, please see ./conf/conf.yml.example
-cat conf/conf.yml
+# configure conf.yml, please see ./conf/conf.yml.example
+vim conf/conf.yml
 # run
 ./midjourney-apiserver
 ```
