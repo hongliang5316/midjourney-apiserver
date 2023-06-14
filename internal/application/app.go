@@ -12,8 +12,8 @@ import (
 	"github.com/hongliang5316/midjourney-apiserver/internal/common"
 	"github.com/hongliang5316/midjourney-apiserver/internal/config"
 	"github.com/hongliang5316/midjourney-apiserver/internal/service"
-	"github.com/hongliang5316/midjourney-apiserver/internal/store"
 	"github.com/hongliang5316/midjourney-apiserver/pkg/api"
+	"github.com/hongliang5316/midjourney-apiserver/pkg/store"
 	"github.com/hongliang5316/midjourney-go/midjourney"
 	"google.golang.org/grpc"
 )

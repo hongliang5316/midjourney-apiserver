@@ -9,7 +9,7 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/hongliang5316/midjourney-apiserver/internal/service"
-	"github.com/hongliang5316/midjourney-apiserver/internal/store"
+	"github.com/hongliang5316/midjourney-apiserver/pkg/store"
 )
 
 func (app *Application) handleRateEvent(m *discordgo.MessageUpdate) {

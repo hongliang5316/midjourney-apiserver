@@ -8,7 +8,8 @@ import (
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/hongliang5316/midjourney-apiserver/internal/store"
+	"github.com/hongliang5316/midjourney-apiserver/pkg/store"
+	wb "github.com/hongliang5316/midjourney-apiserver/pkg/webhook"
 )
 
 func (app *Application) messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
@@ -63,17 +64,6 @@ func (app *Application) messageUpdate(s *discordgo.Session, m *discordgo.Message
 	}
 }
 
-type WebhookRequest struct {
-	TaskID       string       `json:"task_id"`
-	Prompt       string       `json:"prompt"`
-	Type         store.Type   `json:"type"`
-	Status       store.Status `json:"status"`
-	Mode         string       `json:"mode"`
-	ImageURL     string       `json:"image_url"`
-	StartTime    int64        `json:"start_time"`
-	CompleteTime int64        `json:"complete_time"`
-}
-
 func webhookCallback(metaData *store.MetaData) {
 	webhook := metaData.Webhook
 	if webhook == "" {
@@ -86,7 +76,7 @@ func webhookCallback(metaData *store.MetaData) {
 		return
 	}
 
-	webhookReq := &WebhookRequest{
+	webhookReq := &wb.WebhookRequest{
 		TaskID:       metaData.ID,
 		Prompt:       metaData.Prompt,
 		Type:         metaData.Type,
