@@ -110,7 +110,7 @@ version: '3.1'
 
 services:
   midjourney-apiserver:
-    image: hongliang5316/midjourney-apiserver:latest
+    image: hongliang5316/midjourney-apiserver:0.0.1
     hostname: midjourney-apiserver
     restart: always
     volumes:
@@ -136,7 +136,7 @@ docker-compose logs
 - Manual installation
 
 ```sh
-go install github.com/hongliang5316/midjourney-apiserver/cmd/midjourney-apiserver@latest
+go install github.com/hongliang5316/midjourney-apiserver/cmd/midjourney-apiserver@v0.0.1
 
 mkdir -p /your/app/conf
 
