@@ -47,11 +47,20 @@ func (s *Service) Imagine(ctx context.Context, in *api.ImagineRequest) (*api.Ima
 
 	defer KeyChan.Del(key)
 
+	if ok := s.Semaphore.TryAcquire(1); !ok {
+		return &api.ImagineResponse{
+			RequestId: in.RequestId,
+			Code:      api.Codes_CODES_REQUEST_LIMITED,
+			Msg:       fmt.Sprintf("Request limited, concurrency: %d", s.Config.MaxConcurrencyNums),
+		}, nil
+	}
+
 	if err := s.MJClient.Imagine(ctx, &midjourney.ImagineRequest{
 		GuildID:   s.Config.Midjourney.GuildID,
 		ChannelID: s.Config.Midjourney.ChannelID,
 		Prompt:    in.Prompt,
 	}); err != nil {
+		s.Semaphore.Release(1)
 		return &api.ImagineResponse{
 			RequestId: in.RequestId,
 			Code:      api.Codes_CODES_SERVER_INTERNAL_ERROR,

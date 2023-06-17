@@ -8,9 +8,10 @@ import (
 )
 
 type Config struct {
-	ListenPort int32      `yaml:"listen_port"`
-	Midjourney Midjourney `yaml:"midjourney"`
-	Redis      Redis      `yaml:"redis"`
+	ListenPort         int32      `yaml:"listen_port"`
+	MaxConcurrencyNums int32      `yaml:"max_concurrency_nums"`
+	Midjourney         Midjourney `yaml:"midjourney"`
+	Redis              Redis      `yaml:"redis"`
 }
 
 type Midjourney struct {
@@ -38,6 +39,10 @@ func Load() *Config {
 
 	if cfg.ListenPort == 0 {
 		cfg.ListenPort = 8080
+	}
+
+	if cfg.MaxConcurrencyNums == 0 {
+		cfg.MaxConcurrencyNums = 3
 	}
 
 	return cfg

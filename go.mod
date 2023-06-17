@@ -7,6 +7,7 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/hongliang5316/midjourney-go v0.0.0-20230617065834-95161174e59c
 	github.com/redis/go-redis/v9 v9.0.5
+	golang.org/x/sync v0.3.0
 	google.golang.org/grpc v1.55.0
 	google.golang.org/protobuf v1.30.0
 	gopkg.in/yaml.v3 v3.0.1

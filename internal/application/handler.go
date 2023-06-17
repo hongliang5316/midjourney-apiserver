@@ -26,6 +26,8 @@ func (app *Application) handleRateEvent(m *discordgo.MessageUpdate) {
 }
 
 func (app *Application) handleCompleteEvent(m *discordgo.MessageCreate) {
+	defer app.Semaphore.Release(1)
+
 	c := newContent(m.Content)
 	mode := c.getMode()
 	prompt := c.getPrompt()
@@ -46,14 +48,13 @@ func (app *Application) handleEmbedErrorEvent(m *discordgo.MessageCreate) {
 	prompt := strings.Replace(e.Footer.Text, prefix, "", 1)
 	key := store.GetKey(prompt)
 
-	log.Printf("Job queued, key: %s, len: %d", key, len(key))
-
 	ch := service.KeyChan.Get(key)
 	if ch == nil { // timeout or other exception
 		return
 	}
 
 	if e.Title == "Job queued" {
+		log.Printf("Job queued, key: %s, len: %d", key, len(key))
 		log.Printf("save meta: %s, %s", m.ID, prompt)
 		startTime := time.Now().Unix()
 		if err := app.Store.SaveMeta(

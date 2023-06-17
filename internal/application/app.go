@@ -15,6 +15,7 @@ import (
 	"github.com/hongliang5316/midjourney-apiserver/pkg/api"
 	"github.com/hongliang5316/midjourney-apiserver/pkg/store"
 	"github.com/hongliang5316/midjourney-go/midjourney"
+	"golang.org/x/sync/semaphore"
 	"google.golang.org/grpc"
 )
 
@@ -41,7 +42,15 @@ func New() *Application {
 		},
 	})
 
-	app := &Application{Base: &common.Base{Session: dg, Store: stor, MJClient: cli, Config: cfg}}
+	app := &Application{
+		Base: &common.Base{
+			Session:   dg,
+			Store:     stor,
+			MJClient:  cli,
+			Config:    cfg,
+			Semaphore: semaphore.NewWeighted(int64(cfg.MaxConcurrencyNums)),
+		},
+	}
 
 	dg.AddHandler(app.messageCreate)
 	dg.AddHandler(app.messageUpdate)

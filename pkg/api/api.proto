@@ -8,6 +8,7 @@ enum Codes {
     CODES_SUCCESS = 0;
     CODES_SERVER_INTERNAL_ERROR = 1;
     CODES_INVALID_PARAMETER_ERROR = 2;
+    CODES_REQUEST_LIMITED = 3;
 }
 
 service APIService {
