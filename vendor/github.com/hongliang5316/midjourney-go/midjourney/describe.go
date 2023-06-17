@@ -21,7 +21,7 @@ type DescribeRequest struct {
 	filename string `json:"-"`
 }
 
-func getImage(ctx context.Context, url string) ([]byte, error) {
+func downloadImage(ctx context.Context, url string) ([]byte, error) {
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, fmt.Errorf("Call http.Get failed, err: %w", err)
@@ -47,7 +47,7 @@ func (c *Client) Describe(ctx context.Context, describeReq *DescribeRequest) err
 		return fmt.Errorf("The image_url extension was only jpg and png formats are allowed currently")
 	}
 
-	image, err := getImage(ctx, describeReq.ImageURL)
+	image, err := downloadImage(ctx, describeReq.ImageURL)
 	if err != nil {
 		return err
 	}

@@ -22,7 +22,7 @@ func (c *Client) Imagine(ctx context.Context, imgReq *ImagineRequest) error {
 		ChannelID:     imgReq.ChannelID,
 		SessionID:     SessionID,
 		Data: map[string]any{
-			"version": "1077969938624553050",
+			"version": "1118961510123847772",
 			"id":      "938956540159881230",
 			"name":    "imagine",
 			"type":    "1",
@@ -36,7 +36,7 @@ func (c *Client) Imagine(ctx context.Context, imgReq *ImagineRequest) error {
 			"application_command": map[string]any{
 				"id":                         "938956540159881230",
 				"application_id":             ApplicationID,
-				"version":                    "1077969938624553050",
+				"version":                    "1118961510123847772",
 				"default_permission":         true,
 				"default_member_permissions": nil,
 				"type":                       1,

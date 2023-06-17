@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/bwmarrin/discordgo v0.27.1
 	github.com/google/uuid v1.3.0
-	github.com/hongliang5316/midjourney-go v0.0.0-20230610081654-a7d0a44f0f07
+	github.com/hongliang5316/midjourney-go v0.0.0-20230617065834-95161174e59c
 	github.com/redis/go-redis/v9 v9.0.5
 	google.golang.org/grpc v1.55.0
 	google.golang.org/protobuf v1.30.0

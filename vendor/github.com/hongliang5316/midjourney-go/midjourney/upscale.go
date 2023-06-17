@@ -61,7 +61,5 @@ func (c *Client) Upscale(ctx context.Context, upscaleReq *UpscaleRequest) error 
 func GetMessageHash(url string) string {
 	t := strings.Split(url, "_")
 	t = strings.Split(t[len(t)-1], ".")
-	hash := t[0]
-
-	return hash
+	return t[0]
 }
