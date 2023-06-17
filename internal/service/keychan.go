@@ -20,10 +20,17 @@ type keyChan struct {
 	Inner map[string](chan MessageInfo)
 }
 
-func (k *keyChan) Init(key string) {
+func (k *keyChan) Init(key string) bool {
 	k.Mu.Lock()
 	defer k.Mu.Unlock()
+
+	_, ok := k.Inner[key]
+	if ok {
+		return false
+	}
+
 	k.Inner[key] = make(chan MessageInfo, 1)
+	return true
 }
 
 func (k *keyChan) Del(key string) {

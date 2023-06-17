@@ -72,7 +72,14 @@ func (s *Service) Upscale(ctx context.Context, in *api.UpscaleRequest) (*api.Ups
 
 	log.Printf("Upscale, key: %s, len: %d", key, len(key))
 
-	KeyChan.Init(key)
+	if !KeyChan.Init(key) {
+		return &api.UpscaleResponse{
+			RequestId: in.RequestId,
+			Code:      api.Codes_CODES_INVALID_PARAMETER_ERROR,
+			Msg:       fmt.Sprintf("The same prompt is being processed, please try again later."),
+		}, nil
+	}
+
 	defer KeyChan.Del(key)
 
 	if err := s.MJClient.Upscale(ctx, &midjourney.UpscaleRequest{
