@@ -1,3 +1,13 @@
+List
+====
+
+* [midjourney-apiserver](#midjourney-apiserver)
+* [how to use](#how-to-use)
+* [how to deploy](#how-to-deploy)
+* [status](#status)
+    * [imagine api](#imagine-api)
+    * [upscale api](#upscale-api)
+
 # midjourney-apiserver #
 
 `midjourney-apiserver` is an unofficial API service for `Midjourney`, designed to integrate the powerful capabilities of `Midjourney` into one's own business.
@@ -80,6 +90,8 @@ func main() {
 }
 ```
 
+[List](#list)
+
 ## How to deploy ##
 
 - Use `docker-compose` (Strongly Recommend)
@@ -138,4 +150,18 @@ vim conf/conf.yml
 ./midjourney-apiserver
 ```
 
+[List](#list)
+
 ## Status ##
+
+You can see which api are currently supported by looking at [api.proto](./pkg/api/api.proto), and if you have some ideas, feel free to submit issues.
+
+### imagine api ###
+
+![imagine.flow.svg](img/imagine.flow.svg)
+
+### upscale api ###
+
+![upscale.flow.svg](img/upscale.flow.svg)
+
+[List](#list)
