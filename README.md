@@ -111,7 +111,7 @@ version: '3.1'
 
 services:
   midjourney-apiserver:
-    image: hongliang5316/midjourney-apiserver:0.0.1
+    image: hongliang5316/midjourney-apiserver:0.0.2
     hostname: midjourney-apiserver
     restart: always
     volumes:
