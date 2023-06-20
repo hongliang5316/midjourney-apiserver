@@ -76,7 +76,7 @@ func (c *Client) Describe(ctx context.Context, describeReq *DescribeRequest) err
 		ChannelID:     describeReq.ChannelID,
 		SessionID:     SessionID,
 		Data: map[string]any{
-			"version": "1092492867185950853",
+			"version": "1118961510123847774",
 			"id":      "1092492867185950852",
 			"name":    "describe",
 			"type":    "1",
@@ -90,7 +90,7 @@ func (c *Client) Describe(ctx context.Context, describeReq *DescribeRequest) err
 			"application_command": map[string]any{
 				"id":                         "1092492867185950852",
 				"application_id":             ApplicationID,
-				"version":                    "1092492867185950853",
+				"version":                    "1118961510123847774",
 				"default_member_permissions": nil,
 				"type":                       1,
 				"nsfw":                       false,

@@ -7,6 +7,7 @@ List
 * [status](#status)
     * [imagine api](#imagine-api)
     * [upscale api](#upscale-api)
+    * [describe api](#describe-api)
 
 # midjourney-apiserver #
 
@@ -163,5 +164,7 @@ You can see which api are currently supported by looking at [api.proto](./pkg/ap
 ### upscale api ###
 
 ![upscale.flow.svg](img/upscale.flow.svg)
+
+### describe api ###
 
 [List](#list)

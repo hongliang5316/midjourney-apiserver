@@ -19,6 +19,12 @@ func (app *Application) messageCreate(s *discordgo.Session, m *discordgo.Message
 
 	if m.Author.Username == "Midjourney Bot" {
 		log.Printf("%s, messageCreate: %s", m.ID, m.Content)
+		// log.Printf("%s, messageCreate: %s", m.ID, toJson(m))
+
+		if m.Interaction != nil && m.Interaction.Name == "describe" {
+			app.handleDescribeEvent(m)
+			return
+		}
 
 		// handle wating to start message
 		if strings.HasSuffix(m.Content, "(Waiting to start)") {
@@ -54,10 +60,19 @@ func (app *Application) messageUpdate(s *discordgo.Session, m *discordgo.Message
 		return
 	}
 
+	// maybe describe message update
+	if m.Author == nil {
+		if len(m.Embeds) > 0 && len(m.Attachments) == 0 && m.Embeds[0].Type == "rich" {
+			app.handleDescribeUpdateEvent(m)
+		}
+
+		return
+	}
+
 	if m.Author.Username == "Midjourney Bot" {
 		log.Printf("%s, messageUpdate: %s", m.ID, m.Content)
 
-		if m.Attachments != nil && len(m.Attachments) > 0 && len(m.Content) > 0 {
+		if len(m.Attachments) > 0 && len(m.Content) > 0 {
 			app.handleRateEvent(m)
 			return
 		}

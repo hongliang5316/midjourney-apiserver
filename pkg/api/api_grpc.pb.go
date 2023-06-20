@@ -19,8 +19,9 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	APIService_Imagine_FullMethodName = "/api.APIService/Imagine"
-	APIService_Upscale_FullMethodName = "/api.APIService/Upscale"
+	APIService_Imagine_FullMethodName  = "/api.APIService/Imagine"
+	APIService_Upscale_FullMethodName  = "/api.APIService/Upscale"
+	APIService_Describe_FullMethodName = "/api.APIService/Describe"
 )
 
 // APIServiceClient is the client API for APIService service.
@@ -29,6 +30,7 @@ const (
 type APIServiceClient interface {
 	Imagine(ctx context.Context, in *ImagineRequest, opts ...grpc.CallOption) (*ImagineResponse, error)
 	Upscale(ctx context.Context, in *UpscaleRequest, opts ...grpc.CallOption) (*UpscaleResponse, error)
+	Describe(ctx context.Context, in *DescribeRequest, opts ...grpc.CallOption) (*DescribeResponse, error)
 }
 
 type aPIServiceClient struct {
@@ -57,12 +59,22 @@ func (c *aPIServiceClient) Upscale(ctx context.Context, in *UpscaleRequest, opts
 	return out, nil
 }
 
+func (c *aPIServiceClient) Describe(ctx context.Context, in *DescribeRequest, opts ...grpc.CallOption) (*DescribeResponse, error) {
+	out := new(DescribeResponse)
+	err := c.cc.Invoke(ctx, APIService_Describe_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // APIServiceServer is the server API for APIService service.
 // All implementations must embed UnimplementedAPIServiceServer
 // for forward compatibility
 type APIServiceServer interface {
 	Imagine(context.Context, *ImagineRequest) (*ImagineResponse, error)
 	Upscale(context.Context, *UpscaleRequest) (*UpscaleResponse, error)
+	Describe(context.Context, *DescribeRequest) (*DescribeResponse, error)
 	mustEmbedUnimplementedAPIServiceServer()
 }
 
@@ -75,6 +87,9 @@ func (UnimplementedAPIServiceServer) Imagine(context.Context, *ImagineRequest) (
 }
 func (UnimplementedAPIServiceServer) Upscale(context.Context, *UpscaleRequest) (*UpscaleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Upscale not implemented")
+}
+func (UnimplementedAPIServiceServer) Describe(context.Context, *DescribeRequest) (*DescribeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Describe not implemented")
 }
 func (UnimplementedAPIServiceServer) mustEmbedUnimplementedAPIServiceServer() {}
 
@@ -125,6 +140,24 @@ func _APIService_Upscale_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _APIService_Describe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DescribeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(APIServiceServer).Describe(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: APIService_Describe_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(APIServiceServer).Describe(ctx, req.(*DescribeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // APIService_ServiceDesc is the grpc.ServiceDesc for APIService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -139,6 +172,10 @@ var APIService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Upscale",
 			Handler:    _APIService_Upscale_Handler,
+		},
+		{
+			MethodName: "Describe",
+			Handler:    _APIService_Describe_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
