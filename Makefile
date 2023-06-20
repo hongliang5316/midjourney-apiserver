@@ -1,4 +1,4 @@
-version=0.0.1
+version=0.0.2
 
 proto:
 	protoc --go-grpc_out=. --go_out=. pkg/api/api.proto
