@@ -8,6 +8,11 @@ List
     * [imagine api](#imagine-api)
     * [upscale api](#upscale-api)
     * [describe api](#describe-api)
+* [todo](#todo)
+    * [variation api](#variation-api)
+    * [blend api](#blend-api)
+    * [progress api](#progress-api)
+    * [slash command api](#slash-command-api)
 
 # midjourney-apiserver #
 
