@@ -13,6 +13,7 @@ List
     * [blend api](#blend-api)
     * [progress api](#progress-api)
     * [slash command api](#slash-command-api)
+* [changelog](#changelog)
 
 # midjourney-apiserver #
 
@@ -171,5 +172,21 @@ You can see which api are currently supported by looking at [api.proto](./pkg/ap
 ![upscale.flow.svg](img/upscale.flow.svg)
 
 ### describe api ###
+
+## Changelog ##
+
+The simplest way of getting data is from the commits you write.
+Even though it doesn't require a machine-readable commit, it is still better to have them in a nice format.
+
+The output then uses commit messages (title + description) to look something like:
+
+> ## v0.0.2 (20/06/2023)
+> - Added support for new interfaces
+>   * Support for `Upscale` grpc api
+> ## v0.0.1 (17/06/2023)
+>
+> - Complete the basic functions
+>   * Support for `Imagine` grpc api
+>   * Support for `Upscale` grpc api
 
 [List](#list)
