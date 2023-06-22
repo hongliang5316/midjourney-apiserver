@@ -18,8 +18,7 @@ func (app *Application) messageCreate(s *discordgo.Session, m *discordgo.Message
 	}
 
 	if m.Author.Username == "Midjourney Bot" {
-		log.Printf("%s, messageCreate: %s", m.ID, m.Content)
-		// log.Printf("%s, messageCreate: %s", m.ID, toJson(m))
+		log.Printf("%s, messageCreate: %s", m.ID, toJson(m))
 
 		if m.Interaction != nil && m.Interaction.Name == "describe" {
 			app.handleDescribeEvent(m)
@@ -51,7 +50,7 @@ func (app *Application) messageDelete(s *discordgo.Session, m *discordgo.Message
 		return
 	}
 
-	log.Printf("messageDelete id: %s", m.ID)
+	log.Printf("%s, messageDelete: %s", m.ID, toJson(m))
 }
 
 // key: promptWithNoParameters
@@ -59,6 +58,8 @@ func (app *Application) messageUpdate(s *discordgo.Session, m *discordgo.Message
 	if m.ChannelID != app.Config.Midjourney.ChannelID {
 		return
 	}
+
+	log.Printf("%s, messageUpdate: %s", m.ID, toJson(m))
 
 	// maybe describe message update
 	if m.Author == nil {
@@ -70,8 +71,6 @@ func (app *Application) messageUpdate(s *discordgo.Session, m *discordgo.Message
 	}
 
 	if m.Author.Username == "Midjourney Bot" {
-		log.Printf("%s, messageUpdate: %s", m.ID, m.Content)
-
 		if len(m.Attachments) > 0 && len(m.Content) > 0 {
 			app.handleRateEvent(m)
 			return
