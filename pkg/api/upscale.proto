@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "./pkg/api";
+
+import "common.proto";
+
+message UpscaleRequest {
+    string request_id = 1;
+    int32 index = 2;
+    string task_id = 3;
+    string webhook = 4;
+}
+
+message UpscaleResponse {
+    string request_id = 1;
+    Codes code = 2;
+    string msg = 3;
+    optional UpscaleResponseData data = 4;
+}
+
+message UpscaleResponseData {
+    string task_id = 1;
+    int64 start_time = 2;
+}

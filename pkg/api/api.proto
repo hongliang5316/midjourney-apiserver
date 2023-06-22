@@ -4,69 +4,12 @@ package api;
 
 option go_package = "./pkg/api";
 
-enum Codes {
-    CODES_SUCCESS = 0;
-    CODES_SERVER_INTERNAL_ERROR = 1;
-    CODES_INVALID_PARAMETER_ERROR = 2;
-    CODES_CONCURRENCY_LIMITED = 3;
-    CODES_PROCESSING_TIMEOUT = 4;
-}
+import "imagine.proto";
+import "upscale.proto";
+import "describe.proto";
 
 service APIService {
     rpc Imagine(ImagineRequest) returns(ImagineResponse);
     rpc Upscale(UpscaleRequest) returns(UpscaleResponse);
     rpc Describe(DescribeRequest) returns(DescribeResponse);
-}
-
-message ImagineRequest {
-    string request_id = 1;
-    string prompt = 2;
-    string webhook = 3;
-}
-
-message ImagineResponse {
-    string request_id = 1;
-    Codes code = 2;
-    string msg = 3;
-    optional ImagineResponseData data = 4;
-}
-
-message ImagineResponseData {
-    string task_id = 1;
-    int64 start_time = 2;
-}
-
-message UpscaleRequest {
-    string request_id = 1;
-    int32 index = 2;
-    string task_id = 3;
-    string webhook = 4;
-}
-
-message UpscaleResponse {
-    string request_id = 1;
-    Codes code = 2;
-    string msg = 3;
-    optional UpscaleResponseData data = 4;
-}
-
-message UpscaleResponseData {
-    string task_id = 1;
-    int64 start_time = 2;
-}
-
-message DescribeRequest {
-    string request_id = 1;
-    string image_url = 2;
-}
-
-message DescribeResponse {
-    string request_id = 1;
-    Codes code = 2;
-    string msg = 3;
-    optional DescribeResponseData data = 4;
-}
-
-message DescribeResponseData {
-    repeated string prompts = 1;
 }

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "./pkg/api";
+
+enum Codes {
+    CODES_SUCCESS = 0;
+    CODES_SERVER_INTERNAL_ERROR = 1;
+    CODES_INVALID_PARAMETER_ERROR = 2;
+    CODES_CONCURRENCY_LIMITED = 3;
+    CODES_PROCESSING_TIMEOUT = 4;
+}

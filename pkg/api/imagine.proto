@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package api;
+
+option go_package = "./pkg/api";
+
+import "common.proto";
+
+message ImagineRequest {
+    string request_id = 1;
+    string prompt = 2;
+    string webhook = 3;
+}
+
+message ImagineResponse {
+    string request_id = 1;
+    Codes code = 2;
+    string msg = 3;
+    optional ImagineResponseData data = 4;
+}
+
+message ImagineResponseData {
+    string task_id = 1;
+    int64 start_time = 2;
+}
