@@ -186,7 +186,7 @@ The output then uses commit messages (title + description) to look something lik
 
 > ## v0.0.2 (20/06/2023)
 > - Added support for new interfaces
->   * Support for `Upscale` grpc api
+>   * Support for `Describe` grpc api
 > ## v0.0.1 (17/06/2023)
 >
 > - Complete the basic functions
